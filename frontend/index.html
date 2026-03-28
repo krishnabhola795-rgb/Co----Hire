@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Co Hire AI Recruiter</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Assignment Prototype</p>
+          <h1>Co Hire</h1>
+        </div>
+        <nav class="topbar-actions">
+          <button id="modeCandidate" class="ghost-btn">Candidate View</button>
+          <button id="modeRecruiter" class="ghost-btn">Recruiter View</button>
+          <button id="logoutBtn" class="ghost-btn hidden">Log Out</button>
+        </nav>
+      </header>
+
+      <main id="app"></main>
+    </div>
+
+    <template id="loginTemplate">
+      <section class="hero-grid">
+        <div class="hero-card">
+          <p class="eyebrow">AI-powered recruitment experience</p>
+          <h2>Replace resume uploads with a structured, guided profile journey.</h2>
+          <p class="muted">
+            This prototype demonstrates onboarding, AI-assisted profile creation,
+            recruiter review, shortlist decisions, autosave, and export/share.
+          </p>
+          <div class="metric-row">
+            <article>
+              <strong>6-8 screens</strong>
+              <span>Core assignment journey covered</span>
+            </article>
+            <article>
+              <strong>AI assist</strong>
+              <span>Summaries, skills, role suggestions</span>
+            </article>
+            <article>
+              <strong>No resume upload</strong>
+              <span>Structured data from day one</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <span class="pill">Demo Access</span>
+            <h3>Sign in to explore the product</h3>
+          </div>
+          <form id="loginForm" class="stack gap-md">
+            <label>
+              Email
+              <input name="email" type="email" value="hire-me@anshumat.org" required />
+            </label>
+            <label>
+              Password
+              <input
+                name="password"
+                type="password"
+                value="HireMe@2025!"
+                required
+              />
+            </label>
+            <button type="submit" class="primary-btn">Enter Candidate Workspace</button>
+          </form>
+          <button id="recruiterLoginBtn" class="secondary-btn full-width">
+            Use Recruiter Demo
+          </button>
+          <p id="loginError" class="error-text"></p>
+        </div>
+      </section>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

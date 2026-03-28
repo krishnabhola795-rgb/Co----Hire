@@ -1,0 +1,9 @@
+{
+  "name": "ai-recruiter-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Zero-dependency backend for the AI recruiter assignment.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
