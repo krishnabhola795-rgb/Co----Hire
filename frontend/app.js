@@ -78,6 +78,7 @@ function renderLogin() {
   app.innerHTML = "";
   app.appendChild(loginTemplate.content.cloneNode(true));
   const loginForm = document.getElementById("loginForm");
+  const candidateDemoBtn = document.getElementById("candidateDemoBtn");
   const recruiterLoginBtn = document.getElementById("recruiterLoginBtn");
   const loginError = document.getElementById("loginError");
 
@@ -95,15 +96,19 @@ function renderLogin() {
     }
   });
 
+  candidateDemoBtn.addEventListener("click", async () => {
+    loginError.textContent = "";
+    try {
+      await loginAsDemo("candidate");
+    } catch (error) {
+      loginError.textContent = error.message;
+    }
+  });
+
   recruiterLoginBtn.addEventListener("click", async () => {
     loginError.textContent = "";
     try {
-      await login({
-        email: "reviewer@anshumat.org",
-        password: "Review@2025!",
-      });
-      state.view = "recruiter";
-      await loadRecruiter();
+      await loginAsDemo("recruiter");
     } catch (error) {
       loginError.textContent = error.message;
     }
@@ -114,6 +119,21 @@ async function login(credentials) {
   const payload = await api("/api/auth/login", {
     method: "POST",
     body: JSON.stringify(credentials),
+  });
+  state.user = payload.user;
+  state.view = payload.user.role === "recruiter" ? "recruiter" : "candidate";
+  if (state.view === "candidate") {
+    await loadProfile();
+  } else {
+    await loadRecruiter();
+  }
+  render();
+}
+
+async function loginAsDemo(role) {
+  const payload = await api("/api/auth/demo-login", {
+    method: "POST",
+    body: JSON.stringify({ role }),
   });
   state.user = payload.user;
   state.view = payload.user.role === "recruiter" ? "recruiter" : "candidate";

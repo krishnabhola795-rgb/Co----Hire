@@ -53,25 +53,30 @@
             <span class="pill">Demo Access</span>
             <h3>Sign in to explore the product</h3>
           </div>
+          <div class="stack gap-sm">
+            <button id="candidateDemoBtn" class="primary-btn full-width" type="button">
+              Enter Candidate Demo
+            </button>
+            <button id="recruiterLoginBtn" class="secondary-btn full-width" type="button">
+              Use Recruiter Demo
+            </button>
+          </div>
           <form id="loginForm" class="stack gap-md">
             <label>
               Email
-              <input name="email" type="email" value="hire-me@anshumat.org" required />
+              <input name="email" type="email" placeholder="Enter your company email" required />
             </label>
             <label>
               Password
               <input
                 name="password"
                 type="password"
-                value="HireMe@2025!"
+                placeholder="Enter your password"
                 required
               />
             </label>
-            <button type="submit" class="primary-btn">Enter Candidate Workspace</button>
+            <button type="submit" class="ghost-btn">Sign In With Credentials</button>
           </form>
-          <button id="recruiterLoginBtn" class="secondary-btn full-width">
-            Use Recruiter Demo
-          </button>
           <p id="loginError" class="error-text"></p>
         </div>
       </section>

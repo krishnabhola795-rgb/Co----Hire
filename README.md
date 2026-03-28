@@ -51,17 +51,15 @@ The app covers the assignment's required flow:
 /README.md  Setup instructions + product thinking
 ```
 
-## Demo login
+## Demo credentials
 
-Mandatory seeded reviewer account:
+Credentials are now loaded from a local `.env` file so company email/password values are not committed to GitHub.
 
-- Email: `hire-me@anshumat.org`
-- Password: `HireMe@2025!`
+1. Copy `.env.example` to `.env`
+2. Replace the placeholder values with your private credentials
+3. Start the backend normally
 
-Additional recruiter demo:
-
-- Email: `reviewer@anshumat.org`
-- Password: `Review@2025!`
+The UI includes demo buttons for candidate and recruiter access, so the browser no longer needs the raw passwords baked into frontend code.
 
 ## How to run
 

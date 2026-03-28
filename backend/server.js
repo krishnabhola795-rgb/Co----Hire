@@ -5,21 +5,45 @@ const { URL } = require("url");
 
 const PORT = process.env.PORT || 3000;
 const FRONTEND_DIR = path.join(__dirname, "..", "frontend");
+const ENV_PATH = path.join(__dirname, "..", ".env");
 const sessions = new Map();
+
+loadEnvFile(ENV_PATH);
+
+function loadEnvFile(filePath) {
+  if (!fs.existsSync(filePath)) return;
+  const lines = fs.readFileSync(filePath, "utf8").split(/\r?\n/);
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const separatorIndex = trimmed.indexOf("=");
+    if (separatorIndex === -1) continue;
+    const key = trimmed.slice(0, separatorIndex).trim();
+    if (!key || process.env[key]) continue;
+    let value = trimmed.slice(separatorIndex + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    process.env[key] = value;
+  }
+}
 
 const demoUsers = [
   {
     id: "candidate-demo",
-    email: "hire-me@anshumat.org",
-    password: "HireMe@2025!",
+    email: process.env.CANDIDATE_DEMO_EMAIL || "candidate@example.com",
+    password: process.env.CANDIDATE_DEMO_PASSWORD || "ChangeMe123!",
     role: "candidate",
     name: "Aarav Mehta",
     title: "AI Product Analyst",
   },
   {
     id: "recruiter-demo",
-    email: "reviewer@anshumat.org",
-    password: "Review@2025!",
+    email: process.env.RECRUITER_DEMO_EMAIL || "recruiter@example.com",
+    password: process.env.RECRUITER_DEMO_PASSWORD || "ChangeMe123!",
     role: "recruiter",
     name: "Naina Kapoor",
     title: "Hiring Manager",
@@ -379,6 +403,20 @@ async function handleApi(req, res, pathname) {
   if (req.method === "POST" && pathname === "/api/auth/logout") {
     clearSession(req, res);
     sendJson(res, 200, { ok: true });
+    return;
+  }
+
+  if (req.method === "POST" && pathname === "/api/auth/demo-login") {
+    const body = await parseBody(req);
+    const user = demoUsers.find((item) => item.role === body.role);
+    if (!user) {
+      sendJson(res, 404, { error: "Demo user not found" });
+      return;
+    }
+    setSession(res, user);
+    sendJson(res, 200, {
+      user: { id: user.id, role: user.role, email: user.email, name: user.name, title: user.title },
+    });
     return;
   }
 
